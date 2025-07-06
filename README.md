@@ -1,13 +1,15 @@
 # git-notes-db
 
 [![License](https://img.shields.io/badge/license-Unlicense-blue.svg)](LICENSE)
+
 This tool helps store structured information in git-notes.
 It aims to be usable manually, but also for creating other scripts.
 
 Usage
 =====
 
-When setting value specify a name as the first argument (this will be `refs/notes/<name>`). In this example we use `test_results`.
+When setting value specify a name as the first argument (this will be
+`refs/notes/<name>`). In this example we use `test_results`.
 The second argument is the commit this data is about.
 The third argument is what to store, this can be anything that `jq` accepts, including standard JSON.
 
@@ -24,7 +26,9 @@ $ git-notes-db test_results HEAD
 > {"passed": false, "older_results": []}
 ```
 
-When updating, the jq expression gets any original value as an input (or null if no original value is stored). This allows for selective updating, or merging data.
+When updating, the jq expression gets any original value as an input (or null
+if no original value is stored). This allows for selective updating, or merging
+data.
 
 ```console
 $ git-notes-db test_results HEAD '{passed: true, older_results: .older_results + [.passed]}'
@@ -45,7 +49,7 @@ jq expressions which modify the output results.
 Return's results matching supplied jq expression.
 
 
-Todo 
+Todo
 ====
 
 - [ ] Allow limiting queries/get by git revision range.
@@ -64,16 +68,18 @@ Todo
 - [ ] Add toggle for `match` that outputs just commits newline separated.
 - [ ] Add option for `match` and `get_all` that stops searching after `n`
       results are outputted.
-- [ ] Add option for `match` that fails if number of results is outside 
+- [ ] Add option for `match` that fails if number of results is outside
       a given range.
 - [ ] githooks / ci.
-- [ ] More tutorial with usage examples. 
+- [ ] More tutorial with usage examples.
 - [ ] Feel like I've reinvented the wheel with the way I've built up the cli
       commands. I've not seen the state of CLI helper libraries recently.
 
 Development Notes
 =================
-
+- Haven't decided whether I want to primarily use
+  [github](https://github.com/cscutcher/git-notes-db) or
+  [gitlab](https://gitlab.com/cscutcher-public/git-notes-db).
 - A bit over-engineered. Trying out some stuff.
 - Trying out jujutsu VCS, commits might be weird until I work it out.
 - Had originally planned to use more asyncio. Right now a bunch of stuff is
