@@ -4,6 +4,24 @@ version = "0.1.0"
 description = "Store and access structured data in git-notes"
 readme = "README.md"
 requires-python = ">=3.13"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Chris Scutcher", email = "chris@scutcher.uk" },
+]
+urls = {
+    "Homepage" = "https://gitlab.com/cscutcher-public/git-notes-db",
+    "Repository" = "https://gitlab.com/cscutcher-public/git-notes-db.git",
+    "Homepage (Mirror)" = "https://github.com/cscutcher/git-notes-db",
+    "Repository (Mirror)" = "https://github.com/cscutcher/git-notes-db.git",
+}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: Public Domain",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Version Control",
+]
+keywords = ["git", "notes", "cli", "json", "jq"]
 dependencies = [
     "attrs>=25.3.0",
     "gitpython>=3.1.44",
