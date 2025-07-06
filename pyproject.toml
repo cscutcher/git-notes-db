@@ -1,0 +1,48 @@
+[project]
+name = "git-notes-db"
+version = "0.1.0"
+description = "Store and access structured data in git-notes"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "attrs>=25.3.0",
+    "gitpython>=3.1.44",
+    "jq>=1.9.1",
+    "more-itertools>=10.7.0",
+    "pydantic>=2.11.7",
+    "rich>=14.0.0",
+]
+[project.scripts]
+git-notes-db = "git_notes_db:cli.main"
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.29.5",
+    "ipython>=9.4.0",
+    "mypy>=1.16.1",
+    "pdbpp>=0.11.6",
+    "pytest>=8.4.1",
+    "ruff>=0.12.2",
+]
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.format]
+docstring-code-format = true
+preview = true
+quote-style = "preserve"
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+lines-between-types = 1
+order-by-type = true
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+force-single-line = true
+
+
+[tool.basedpyright]
+ allowedUntypedLibraries = ["git"]
