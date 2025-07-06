@@ -74,6 +74,9 @@ Todo
 - [ ] More tutorial with usage examples.
 - [ ] Feel like I've reinvented the wheel with the way I've built up the cli
       commands. I've not seen the state of CLI helper libraries recently.
+      Maybe try [Typer](https://typer.tiangolo.com/).
+      or [felix-martel/pydanclick: Add click options from a Pydantic
+      model](https://github.com/felix-martel/pydanclick)
 
 Development Notes
 =================
