@@ -16,13 +16,13 @@ The third argument is what to store, this can be anything that `jq` accepts, inc
 All operations must be run from within a git repository.
 
 ```console
-$ git-notes-db test_results HEAD '{passed: false, older_results: []}'
+$ git-notes-db set test_results HEAD '{passed: false, older_results: []}'
 ```
 
-To read the data back, omit the third argument.
+To read the data back;
 
 ```console
-$ git-notes-db test_results HEAD
+$ git-notes-db get test_results HEAD
 > {"passed": false, "older_results": []}
 ```
 
@@ -31,8 +31,8 @@ if no original value is stored). This allows for selective updating, or merging
 data.
 
 ```console
-$ git-notes-db test_results HEAD '{passed: true, older_results: .older_results + [.passed]}'
-$ git-notes-db test_results HEAD
+$ git-notes-db set test_results HEAD '{passed: true, older_results: .older_results + [.passed]}'
+$ git-notes-db get test_results HEAD
 > {"passed": true, "older_results": [false]}
 ```
 
