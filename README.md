@@ -3,8 +3,6 @@
 This tool helps store structured information in git-notes.
 It aims to be usable manually, but also for creating other scripts.
 
-
-
 Usage
 =====
 
@@ -33,11 +31,54 @@ $ git-notes-db test_results HEAD
 > {"passed": true, "older_results": [false]}
 ```
 
+Other commands
+--------------
+
+`get_all`
+
+It's also possible to get all known results with `get_all`. This also accepts
+jq expressions which modify the output results.
+
+`match`
+
+Return's results matching supplied jq expression.
+
+
+Todo 
+====
+
+- [ ] Allow limiting queries/get by git revision range.
+- [ ] Add subcommand to run some executable and store result.
+      See git-branchless for inspiration.
+        - Could make nice tui with textual.
+- [ ] Package and push to pypi.
+- [ ] Nix flake.
+- [ ] Add helper to `push` given notes to a remote.
+- [ ] Add helper to automatically configure git to fetch notes from remote.
+- [ ] Add note merge helper. Use jq expression to handle merge.
+- [ ] Add ability to specify a key (e.g. message).
+      When this key is present on a result that's being set, also update a
+      secondary *human readable* note for including in git log output with
+      `notes.displayRef`.
+- [ ] Add toggle for `match` that outputs just commits newline separated.
+- [ ] Add option for `match` and `get_all` that stops searching after `n`
+      results are outputted.
+- [ ] Add option for `match` that fails if number of results is outside 
+      a given range.
+- [ ] githooks / ci.
+- [ ] More tutorial with usage examples. 
+- [ ] Feel like I've reinvented the wheel with the way I've built up the cli
+      commands. I've not seen the state of CLI helper libraries recently.
 
 Development Notes
 =================
 
-- Where possible, use asyncio everywhere.
+- A bit over-engineered. Trying out some stuff.
+- Trying out jujutsu VCS, commits might be weird until I work it out.
+- Had originally planned to use more asyncio. Right now a bunch of stuff is
+  async that probably doesn't need to be.
+  Will leave this behind incase I end up wanting to parallelise things in
+  future.
 - Ruff should be used to format code.
 - Basedpyright and ruff should both be run for static testing.
 - Write unit/integration tests suitable for pytest.
