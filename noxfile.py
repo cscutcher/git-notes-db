@@ -196,4 +196,15 @@ def bump(session: Session):
     session.notify("_bump", *session.posargs)
 
 
+@nox.session(python=False)
+def push(session: Session):
+    """
+    Push changes and tags to remove repos
+    """
+    _ = session.run("jj", "git", "push", "--remote", "gitlab")
+    _ = session.run("jj", "git", "push", "--remote", "github")
+    _ = session.run("git", "push", "--tags", "gitlab")
+    _ = session.run("git", "push", "--tags", "github")
+
+
 nox.options.sessions = ["lint", "pytest", "sync"]
