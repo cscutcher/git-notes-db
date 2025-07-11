@@ -13,6 +13,7 @@ checks:
   stage: test
   image: python:3.13-slim
   before_script:
+    - apt-get update && apt-get install -y git
     - pip install uv
   script:
     - uv run nox -t checks
