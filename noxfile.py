@@ -123,9 +123,18 @@ def commit(session: Session):
     """
     Check and commit
     """
+    session.notify("sync")
     session.notify("lint")
     session.notify("tests")
     session.notify("_commit")
+
+
+@_uv_session
+def sync(session: Session):
+    """
+    Sync anything that needs to be synced. Idempotent.
+    """
+    _ = session.run("cz", "changelog")
 
 
 @_uv_session
@@ -162,4 +171,4 @@ def _commit(session: Session):
         )
 
 
-nox.options.sessions = ["lint", "pytest"]
+nox.options.sessions = ["lint", "pytest", "sync"]
