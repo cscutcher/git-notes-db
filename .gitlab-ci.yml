@@ -102,6 +102,7 @@ release:
       echo "Configuring glab authentication..."
       export GITLAB_TOKEN="$CI_JOB_TOKEN"
       export GITLAB_HOST="gitlab.com"
+      glab auth status
       
       echo "Waiting for package to be available..."
       sleep 10
