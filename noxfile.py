@@ -132,8 +132,8 @@ def commit(session: Session):
     """
     Check and commit
     """
-    session.notify("sync")
-    session.notify("checks")
+    session.notify("sync", ())
+    session.notify("checks", ())
     session.notify("_commit", session.posargs)
 
 
