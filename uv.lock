@@ -183,7 +183,7 @@ wheels = [
 
 [[package]]
 name = "git-notes-db"
-version = "0.1.12"
+version = "0.1.13"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
