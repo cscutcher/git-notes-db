@@ -7,7 +7,8 @@
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
 - test
-- secret-detection
+- build
+- publish
 - release
 
 checks:
@@ -30,10 +31,10 @@ include:
 variables:
   SECRET_DETECTION_ENABLED: 'true'
 secret_detection:
-  stage: secret-detection
+  stage: test
 
 build:
-  stage: release
+  stage: build
   image: python:3.13-slim
   before_script:
     - apt-get update && apt-get install -y git
@@ -47,11 +48,11 @@ build:
   rules:
     - if: $CI_COMMIT_TAG
 
-publish:
-  stage: release
+publish-gitlab:
+  stage: publish
   environment: release
   image: python:3.13-slim
-  needs:
+  dependencies:
     - build
   before_script:
     - pip install uv
@@ -63,13 +64,35 @@ publish:
   rules:
     - if: $CI_COMMIT_TAG
 
+publish-pypi:
+  stage: publish
+  environment: release
+  image: python:3-bookworm
+  dependencies:
+    - build
+  rules:
+    - if: $CI_COMMIT_TAG
+  id_tokens:
+    PYPI_ID_TOKEN:
+      # Use "testpypi" if uploading to TestPyPI
+      #aud: pypi
+      aud: testpypi
+  script:
+    - ls -la
+    # Install dependencies
+    - python -m pip install -U twine
+
+    # Upload to PyPI, add "--repository testpypi" if uploading to TestPyPI
+    # With no token specified, twine will use Trusted Publishing
+    - twine upload --repository testpypi dist/*
+
 release:
   stage: release
   environment: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  needs:
-    - build
-    - publish
+  dependencies: 
+    - publish-gitlab
+    - publish-pypi
   rules:
     - if: $CI_COMMIT_TAG
   script:
