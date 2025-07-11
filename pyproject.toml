@@ -45,6 +45,9 @@ version_scheme = "pep440"
 version_provider = "uv"
 update_changelog_on_bump = true
 major_version_zero = true
+gpg_sign = true
+annotated_tag = true
+
 [dependency-groups]
 dev = [
     "basedpyright>=1.29.5",
