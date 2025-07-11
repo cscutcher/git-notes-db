@@ -8,6 +8,18 @@
 stages:
 - test
 - secret-detection
+
+checks:
+  stage: test
+  image: python:3.13-slim
+  before_script:
+    - pip install uv
+  script:
+    - uv run nox -t checks
+  only:
+    - merge_requests
+    - main
+
 sast:
   stage: test
 include:
