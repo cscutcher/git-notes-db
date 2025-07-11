@@ -54,8 +54,11 @@ publish:
     - build
   before_script:
     - pip install uv
+  variables:
+    UV_PUBLISH_USERNAME: gitlab-ci-token
+    UV_PUBLISH_PASSWORD: $CI_JOB_TOKEN
   script:
-    - uv publish --token $CI_JOB_TOKEN --publish-url $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/pypi
+    - uv publish --publish-url $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/pypi
   rules:
     - if: $CI_COMMIT_TAG
 
