@@ -117,8 +117,18 @@ def _create_commit_message(session: Session):
         yield Path(msg_file.name)
 
 
-@_uv_session
+@nox.session(python=False)
 def commit(session: Session):
+    """
+    Check and commit
+    """
+    session.notify("lint")
+    session.notify("tests")
+    session.notify("_commit")
+
+
+@_uv_session
+def _commit(session: Session):
     """
     Create commit via commitizen
     """
