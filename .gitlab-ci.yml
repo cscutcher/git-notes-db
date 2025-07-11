@@ -96,19 +96,18 @@ release:
     - if: $CI_COMMIT_TAG
   script:
     - echo "Creating release for $CI_COMMIT_TAG"
-    - apk add --no-cache jq
+    - apk add --no-cache jq curl
     - |
       set -o xtrace
-      echo "Configuring glab authentication..."
-      export GITLAB_TOKEN="$CI_JOB_TOKEN"
-      export GITLAB_HOST="gitlab.com"
-      glab auth status
-      
       echo "Waiting for package to be available..."
       sleep 10
       
       echo "Querying GitLab API for package info..."
-      QUERY_RESULT=$(glab api graphql -f query='query getPackageId($version: String!) { project(fullPath: "cscutcher-public/git-notes-db") { name packages(packageName: "git-notes-db", packageVersion: $version){ nodes { _links {webPath} }  } }}' -f version="$CI_COMMIT_TAG")
+      QUERY_RESULT=$(curl -s -X POST \
+        -H "Authorization: Bearer $CI_JOB_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{"query":"query getPackageId($version: String!) { project(fullPath: \"cscutcher-public/git-notes-db\") { name packages(packageName: \"git-notes-db\", packageVersion: $version){ nodes { _links {webPath} }  } }}","variables":{"version":"'$CI_COMMIT_TAG'"}}' \
+        "$CI_API_V4_URL/graphql")
       echo "GraphQL query result:"
       echo "$QUERY_RESULT"
       echo "Extracting package path..."
