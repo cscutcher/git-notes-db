@@ -1,3 +1,4 @@
+import argparse
 import contextlib
 import functools
 import tempfile
@@ -99,7 +100,7 @@ def lint(session: Session):
 
 
 @contextlib.contextmanager
-def _create_commit_message(session: Session):
+def _create_commit_message(session: Session, *extra_args):
     """
     Create commit message with commitizen
     """
@@ -111,7 +112,7 @@ def _create_commit_message(session: Session):
             "--dry-run",
             "--write-message-to-file",
             msg_file.name,
-            "--edit",
+            *extra_args,
         )
         _ = session.run("cz", "check", "--commit-msg-file", msg_file.name)
         yield Path(msg_file.name)
@@ -132,16 +133,31 @@ def _commit(session: Session):
     """
     Create commit via commitizen
     """
-
     assert Path(".jj").exists(), "Expected jj repo"
+    parser = argparse.ArgumentParser("nox -s commit")
+    _ = parser.add_argument(
+        "--edit",
+        "-e",
+        dest="edit",
+        help="Edit message before committing",
+        default=False,
+        action="store_true",
+    )
 
-    with _create_commit_message(session) as message:
+    _ = parser.add_argument(
+        "commit_args", nargs="*", help="Extra args passed to jj commit"
+    )
+    ctx = parser.parse_args(session.posargs)
+
+    cz_extra_args = ("--edit",) if ctx.edit else ()
+
+    with _create_commit_message(session, *cz_extra_args) as message:
         _ = session.run(
             "jj",
             "commit",
             "--message",
             message.open('r').read(),
-            *session.posargs,
+            *ctx.commit_args,
             external=True,
         )
 
