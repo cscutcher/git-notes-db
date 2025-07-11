@@ -18,6 +18,7 @@ class GitHelper:
     """
     Additional helper code for working with git
     """
+
     repo: Repo
 
     def create_file_blob(self, data: str | bytes, path: str | Path) -> Blob:
