@@ -1,9 +1,5 @@
-import argparse
-import contextlib
 import functools
-import tempfile
 
-from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import Callable
@@ -67,12 +63,11 @@ def _uv_session[R](fn=None, /, **session_kwargs):
     return _wrap
 
 
-@nox.session(python=False)
+@nox.session(python=False, requires=["pytest"])
 def tests(session: Session):
     """
     Run all tests
     """
-    session.notify("pytest")
 
 
 @_uv_session
@@ -91,34 +86,22 @@ def ruff(session: Session):
     _ = session.run("ruff", "check", *session.posargs)
 
 
-@nox.session(python=False)
+@nox.session(python=False, requires=["ruff"])
 def lint(session: Session):
     """
     Run all tests
     """
-    session.notify("ruff")
 
 
-@contextlib.contextmanager
-def _create_commit_message(session: Session, *extra_args):
+@_uv_session(tags=["sync"])
+def format(session: Session):
     """
-    Create commit message with commitizen
+    Perform formatting like tasks
     """
-    _ = session.run("jj", "diff", "--no-pager", external=True)
-    with tempfile.NamedTemporaryFile(prefix="COMMIT_EDITMSG") as msg_file:
-        _ = session.run(
-            "cz",
-            "commit",
-            "--dry-run",
-            "--write-message-to-file",
-            msg_file.name,
-            *extra_args,
-        )
-        _ = session.run("cz", "check", "--commit-msg-file", msg_file.name)
-        yield Path(msg_file.name)
+    _ = session.run("ruff", "format", *session.posargs)
 
 
-@nox.session(python=False)
+@nox.session(python=False, requires=["lint", "tests"], tags=["checks"])
 def checks(session: Session):
     """
     Check and commit
@@ -127,17 +110,7 @@ def checks(session: Session):
     session.notify("tests")
 
 
-@nox.session(python=False)
-def commit(session: Session):
-    """
-    Check and commit
-    """
-    session.notify("sync", ())
-    session.notify("checks", ())
-    session.notify("_commit", session.posargs)
-
-
-@_uv_session
+@_uv_session(tags=["sync"])
 def sync(session: Session):
     """
     Sync anything that needs to be synced. Idempotent.
@@ -145,55 +118,12 @@ def sync(session: Session):
     _ = session.run("cz", "changelog")
 
 
-@_uv_session
-def _commit(session: Session):
-    """
-    Create commit via commitizen
-    """
-    assert Path(".jj").exists(), "Expected jj repo"
-    parser = argparse.ArgumentParser("nox -s commit")
-    _ = parser.add_argument(
-        "--edit",
-        "-e",
-        dest="edit",
-        help="Edit message before committing",
-        default=False,
-        action="store_true",
-    )
-
-    _ = parser.add_argument(
-        "commit_args", nargs="*", help="Extra args passed to jj commit"
-    )
-    ctx = parser.parse_args(session.posargs)
-
-    cz_extra_args = ("--edit",) if ctx.edit else ()
-
-    with _create_commit_message(session, *cz_extra_args) as message:
-        _ = session.run(
-            "jj",
-            "commit",
-            "--message",
-            message.open('r').read(),
-            *ctx.commit_args,
-            external=True,
-        )
-
-
-@_uv_session
-def _bump(session):
+@_uv_session(requires=["checks"])
+def bump(session):
     """
     Perform version bump
     """
     session.run("cz", "bump", *session.posargs)
-
-
-@nox.session(python=False)
-def bump(session: Session):
-    """
-    Check and bump version
-    """
-    session.notify("checks")
-    session.notify("_bump", *session.posargs)
 
 
 @nox.session(python=False)
