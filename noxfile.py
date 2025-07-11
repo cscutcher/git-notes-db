@@ -119,14 +119,22 @@ def _create_commit_message(session: Session, *extra_args):
 
 
 @nox.session(python=False)
+def checks(session: Session):
+    """
+    Check and commit
+    """
+    session.notify("lint")
+    session.notify("tests")
+
+
+@nox.session(python=False)
 def commit(session: Session):
     """
     Check and commit
     """
     session.notify("sync")
-    session.notify("lint")
-    session.notify("tests")
-    session.notify("_commit")
+    session.notify("checks")
+    session.notify("_commit", session.posargs)
 
 
 @_uv_session
@@ -169,6 +177,23 @@ def _commit(session: Session):
             *ctx.commit_args,
             external=True,
         )
+
+
+@_uv_session
+def _bump(session):
+    """
+    Perform version bump
+    """
+    session.run("cz", "bump", *session.posargs)
+
+
+@nox.session(python=False)
+def bump(session: Session):
+    """
+    Check and bump version
+    """
+    session.notify("checks")
+    session.notify("_bump", *session.posargs)
 
 
 nox.options.sessions = ["lint", "pytest", "sync"]
