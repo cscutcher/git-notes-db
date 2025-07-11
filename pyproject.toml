@@ -8,12 +8,7 @@ license = { file = "LICENSE" }
 authors = [
     { name = "Chris Scutcher", email = "chris@scutcher.uk" },
 ]
-urls = {
-    "Homepage" = "https://gitlab.com/cscutcher-public/git-notes-db",
-    "Repository" = "https://gitlab.com/cscutcher-public/git-notes-db.git",
-    "Homepage (Mirror)" = "https://github.com/cscutcher/git-notes-db",
-    "Repository (Mirror)" = "https://github.com/cscutcher/git-notes-db.git",
-}
+
 classifiers = [
     "Development Status :: 4 - Beta",
     "License :: Public Domain",
@@ -30,6 +25,13 @@ dependencies = [
     "pydantic>=2.11.7",
     "rich>=14.0.0",
 ]
+
+[project.urls]
+"Homepage" = "https://gitlab.com/cscutcher-public/git-notes-db"
+"Repository" = "https://gitlab.com/cscutcher-public/git-notes-db.git"
+"Homepage (Mirror)" = "https://github.com/cscutcher/git-notes-db"
+"Repository (Mirror)" = "https://github.com/cscutcher/git-notes-db.git"
+
 [project.scripts]
 git-notes-db = "git_notes_db:cli.main"
 
