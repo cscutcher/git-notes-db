@@ -38,11 +38,20 @@ git-notes-db = "git_notes_db:cli.main"
 [tool.uv]
 package = true
 
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "uv"
+update_changelog_on_bump = true
+major_version_zero = true
 [dependency-groups]
 dev = [
     "basedpyright>=1.29.5",
+    "commitizen>=4.8.3",
     "ipython>=9.4.0",
     "mypy>=1.16.1",
+    "nox>=2025.5.1",
     "pdbpp>=0.11.6",
     "pytest>=8.4.1",
     "ruff>=0.12.2",
