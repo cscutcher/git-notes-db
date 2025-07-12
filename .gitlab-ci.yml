@@ -96,9 +96,9 @@ release:
     - if: $CI_COMMIT_TAG
   variables:
     PROJECT_URL_QUERY: >-
-      query getPackageId($version: String!) {
+      query getPackageId($$version: String!) {
         project(fullPath: "cscutcher-public/git-notes-db") {
-          packages(packageName: "git-notes-db", packageVersion: $version){
+          packages(packageName: "git-notes-db", packageVersion: $$version){
             nodes { _links {webPath} }
           }
         }
@@ -125,7 +125,7 @@ release:
       curl --fail -s -X POST \
               -H "Authorization: Bearer $GITLAB_RO_API_ACCESS" \
               --json "$(cat curl_body.json)" \
-              "$CI_API_V4_URL/graphql" > query_result.json
+              "$CI_API_GRAPHQL_URL" > query_result.json
 
       echo "GraphQL query result:"
       jq . query_result.json
