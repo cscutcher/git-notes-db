@@ -1,3 +1,9 @@
+## 0.1.21 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: fix trivial typo
+
 ## 0.1.20 (2025-07-12)
 
 ### 💚👷 CI & Build
