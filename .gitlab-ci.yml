@@ -85,13 +85,12 @@ publish-gitlab:
 #    # With no token specified, twine will use Trusted Publishing
 #    - twine upload --repository pypi dist/*
 
-release:
+get-gitlab-package-url:
   stage: release
   environment: release
   image: registry.gitlab.com/gitlab-org/cli:latest
   dependencies:
     - publish-gitlab
-    #- publish-pypi
   rules:
     - if: $CI_COMMIT_TAG
   variables:
@@ -137,7 +136,20 @@ release:
       jq -r "$PROJECT_URL_ENV_JQ" query_result.json | tee release.env
   artifacts:
     reports:
-      dotenv: release.env
+      dotenv: package.env
+
+create-gitlab-release:
+  stage: release
+  environment: release
+  image: registry.gitlab.com/gitlab-org/cli:latest
+  needs:
+    - job: get-gitlab-package-url
+      artifacts: true
+    - publish-gitlab    
+  script:
+    - echo "$GITLAB_PACKAGE_URL"
+  rules:
+    - if: $CI_COMMIT_TAG
   release:
     tag_name: '$CI_COMMIT_TAG'
     description: 'Release $CI_COMMIT_TAG'
