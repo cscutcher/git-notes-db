@@ -133,10 +133,10 @@ get-gitlab-package-url:
       jq -e "$PROJECT_URL_RESULT_JQ" query_result.json
 
       echo "Writing env"
-      jq -r "$PROJECT_URL_ENV_JQ" query_result.json | tee release.env
+      jq -r "$PROJECT_URL_ENV_JQ" query_result.json | tee package_url.env
   artifacts:
     reports:
-      dotenv: package.env
+      dotenv: package_url.env
 
 create-gitlab-release:
   stage: release
