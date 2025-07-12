@@ -1,3 +1,14 @@
+## 0.1.20 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: try curl again for accessing api
+- **commit.py**: fix -i flag for the commit helper
+
+### 🙈 Ignore
+
+- ignore .orig files
+
 ## 0.1.19 (2025-07-12)
 
 ### 💚👷 CI & Build
