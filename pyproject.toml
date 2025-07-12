@@ -39,19 +39,24 @@ git-notes-db = "git_notes_db:cli.main"
 package = true
 
 [tool.commitizen]
-name = "cz_conventional_commits"
+name = "cz_gitmoji"
 tag_format = "$version"
 version_scheme = "pep440"
 version_provider = "uv"
 update_changelog_on_bump = true
+# TODO: Remove once stable
 major_version_zero = true
 gpg_sign = true
 annotated_tag = true
+pre_bump_hooks = [
+    "scripts/cz-pre-bump.sh"
+]
 
 [dependency-groups]
 dev = [
     "basedpyright>=1.29.5",
     "commitizen>=4.8.3",
+    "cz-conventional-gitmoji>=0.7.0",
     "ipython>=9.4.0",
     "mypy>=1.16.1",
     "nox>=2025.5.1",

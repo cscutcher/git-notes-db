@@ -28,6 +28,14 @@ def commit(args: None | Sequence[str] = None) -> None:
         default=False,
         action="store_true",
     )
+    _ = parser.add_argument(
+        "--interactive",
+        "-i",
+        action="append_const",
+        const="-i",
+        dest="commit_args",
+        help="Select which changes to commit.",
+    )
 
     _ = parser.add_argument(
         "commit_args", nargs="*", help="Extra args passed to jj commit"
