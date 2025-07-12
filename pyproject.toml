@@ -51,6 +51,7 @@ annotated_tag = true
 pre_bump_hooks = [
     "scripts/cz-pre-bump.sh"
 ]
+bump_message = "🔖 bump: version $current_version → $new_version"
 
 [dependency-groups]
 dev = [
