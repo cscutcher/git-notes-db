@@ -1,3 +1,9 @@
+## 0.1.28 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: add missing --raw-output flag to jq to fix .env output
+
 ## 0.1.27 (2025-07-12)
 
 ### 💚👷 CI & Build
