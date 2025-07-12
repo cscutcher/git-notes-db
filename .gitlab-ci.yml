@@ -126,7 +126,7 @@ release:
               -H "Authorization: Bearer $GITLAB_RO_API_ACCESS" \
               -H "Content-Type: application/json" \
               -d "$CURL_BODY" \
-              "$CI_API_V4_URL/graphql") > query_result.json
+              "$CI_API_V4_URL/graphql" > query_result.json
 
       echo "GraphQL query result:"
       jq query_result.json .
