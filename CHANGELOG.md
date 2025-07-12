@@ -1,3 +1,10 @@
+## 0.1.18 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: temporarily disable pypi publish while I'm debugging
+- **gitlab-release**: further debug of ci
+
 ## 0.1.17 (2025-07-12)
 
 ### 💚👷 CI & Build
