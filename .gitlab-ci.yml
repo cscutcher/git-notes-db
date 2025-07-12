@@ -122,7 +122,7 @@ release:
       jq --null-input '{query: env.PROJECT_URL_QUERY, variables: {version: env.CI_COMMIT_TAG}}' | tee curl_body.json
 
       echo "Querying GitLab API for package info..."
-      curl -s -X POST \
+      curl --fail -s -X POST \
               -H "Authorization: Bearer $GITLAB_RO_API_ACCESS" \
               --json "$(cat curl_body.json)" \
               "$CI_API_V4_URL/graphql" > query_result.json
@@ -131,7 +131,7 @@ release:
       jq . query_result.json
 
       echo "Package path is..."
-      jq "$PROJECT_URL_RESULT_JQ" query_result.json
+      jq -e "$PROJECT_URL_RESULT_JQ" query_result.json
 
       echo "Writing env"
       jq "$PROJECT_URL_ENV_JQ" query_result.json | tee release.env
