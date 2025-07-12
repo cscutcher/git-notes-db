@@ -1,3 +1,10 @@
+## 0.1.31 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: Include changelog for new version in release notes
+- **gitlab-release**: cleanup now job works finally!
+
 ## 0.1.30 (2025-07-12)
 
 ### 💚👷 CI & Build
