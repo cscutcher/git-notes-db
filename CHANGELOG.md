@@ -1,3 +1,9 @@
+## 0.1.29 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: split release job
+
 ## 0.1.28 (2025-07-12)
 
 ### 💚👷 CI & Build
