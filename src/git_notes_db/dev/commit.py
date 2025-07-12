@@ -38,7 +38,10 @@ def commit(args: None | Sequence[str] = None) -> None:
     )
 
     _ = parser.add_argument(
-        "commit_args", nargs="*", help="Extra args passed to jj commit"
+        "commit_args",
+        nargs="*",
+        help="Extra args passed to jj commit",
+        action="extend",
     )
     ctx = parser.parse_args(args)
     assert Path(".jj").exists(), "Expected jj repo"
