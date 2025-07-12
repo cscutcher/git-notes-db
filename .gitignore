@@ -1,4 +1,5 @@
 *.egg-info
+*.orig
 __pycache__
 build
 .claude
