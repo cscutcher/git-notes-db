@@ -1,3 +1,10 @@
+## 0.1.16 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: debug failing job - see whats happening in env
+- **commitizen**: update bump message to be consistent with gitmoji
+
 ## 0.1.15 (2025-07-12)
 
 ### revert
