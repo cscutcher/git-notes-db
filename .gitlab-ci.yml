@@ -115,6 +115,7 @@ release:
     - |
       set -o errexit
       set -o pipefail
+      set -o xtrace
       echo "Creating release for $CI_COMMIT_TAG"
 
       env
