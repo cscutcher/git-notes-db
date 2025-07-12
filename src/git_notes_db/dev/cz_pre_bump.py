@@ -38,7 +38,7 @@ def cz_pre_bump(args: None | Sequence[str] = None) -> None:
     assert is_tag(last_version_tag), "Expected tag name"
 
     last_version_commit = last_version_tag.object
-    revset = f"HEAD - {last_version_commit.hexsha}"
+    revset = f"range({last_version_commit.hexsha}, HEAD)"
 
     console.print(
         f"Last commit had tag [bold]{last_tag}[/] with sha [bold]{last_version_commit.hexsha}[/]\n"
@@ -55,8 +55,9 @@ def cz_pre_bump(args: None | Sequence[str] = None) -> None:
                 "branchless",
                 "test",
                 "run",
+                "-j0", # Run in parallel using jobs equal to CPUs
                 "-s",
-                "worktree",
+                "worktree", # Each commit will be processed in its own worktree
                 "-x",
                 'uv run nox -t checks',
                 revset,
