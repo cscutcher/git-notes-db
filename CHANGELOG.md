@@ -1,3 +1,9 @@
+## 0.1.19 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **cz_pre_bump.py**: fix revset used to select commits and work in parallel
+
 ## 0.1.18 (2025-07-12)
 
 ### 💚👷 CI & Build
