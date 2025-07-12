@@ -1,3 +1,10 @@
+## 0.1.26 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: fix graphql url and escaping of $ in query
+- **gitlab-release**: ensure we fail if api query doesn't respond as expected
+
 ## 0.1.25 (2025-07-12)
 
 ### 💚👷 CI & Build
