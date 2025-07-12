@@ -1,3 +1,9 @@
+## 0.1.27 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: fix format of generate .env file
+
 ## 0.1.26 (2025-07-12)
 
 ### 💚👷 CI & Build
