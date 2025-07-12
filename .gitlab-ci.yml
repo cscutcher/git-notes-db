@@ -128,13 +128,13 @@ release:
               "$CI_API_V4_URL/graphql" > query_result.json
 
       echo "GraphQL query result:"
-      jq query_result.json .
+      jq . query_result.json
 
       echo "Package path is..."
-      jq query_result.json "$PROJECT_URL_RESULT_JQ"
+      jq "$PROJECT_URL_RESULT_JQ" query_result.json
 
       echo "Writing env"
-      jq query_result.json "$PROJECT_URL_ENV_JQ" | tee release.env
+      jq "$PROJECT_URL_ENV_JQ" query_result.json | tee release.env
   artifacts:
     reports:
       dotenv: release.env
