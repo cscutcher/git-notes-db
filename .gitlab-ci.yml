@@ -120,7 +120,7 @@ release:
 
       env
       echo "Query will be..."
-      jq . <<<"$CURL_BODY"
+      echo "$CURL_BODY" | jq .
 
       echo "Querying GitLab API for package info..."
       curl -s -X POST \
