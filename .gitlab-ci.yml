@@ -64,26 +64,26 @@ publish-gitlab:
   rules:
     - if: $CI_COMMIT_TAG
 
-#publish-pypi:
-#  stage: publish
-#  environment: release
-#  image: python:3-bookworm
-#  dependencies:
-#    - build
-#  rules:
-#    - if: $CI_COMMIT_TAG
-#  id_tokens:
-#    PYPI_ID_TOKEN:
-#      # Use "testpypi" if uploading to TestPyPI
-#      aud: pypi
-#  script:
-#    - ls -la
-#    # Install dependencies
-#    - python -m pip install -U twine
-#
-#    # Upload to PyPI, add "--repository testpypi" if uploading to TestPyPI
-#    # With no token specified, twine will use Trusted Publishing
-#    - twine upload --repository pypi dist/*
+publish-pypi:
+  stage: publish
+  environment: release
+  image: python:3-bookworm
+  dependencies:
+    - build
+  rules:
+    - if: $CI_COMMIT_TAG
+  id_tokens:
+    PYPI_ID_TOKEN:
+      # Use "testpypi" if uploading to TestPyPI
+      aud: pypi
+  script:
+    - ls -la
+    # Install dependencies
+    - python -m pip install -U twine
+
+    # Upload to PyPI, add "--repository testpypi" if uploading to TestPyPI
+    # With no token specified, twine will use Trusted Publishing
+    - twine upload --repository pypi dist/*
 
 get-gitlab-package-url:
   stage: release
@@ -115,8 +115,6 @@ get-gitlab-package-url:
       set -o xtrace
       echo "Creating release for $CI_COMMIT_TAG"
 
-      env
-
       echo "Body will be..."
       jq --null-input '{query: env.PROJECT_URL_QUERY, variables: {version: env.CI_COMMIT_TAG}}' | tee curl_body.json
 
@@ -145,7 +143,8 @@ create-gitlab-release:
   needs:
     - job: get-gitlab-package-url
       artifacts: true
-    - publish-gitlab    
+    - publish-gitlab
+    - publish-pypi
   script:
     - echo "$GITLAB_PACKAGE_URL"
   rules:
@@ -157,7 +156,7 @@ create-gitlab-release:
       links:
         - name: 'Build Artifacts'
           url: '$CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_TAG/browse?job=build'
-    #    - name: 'PyPI Package'
-    #      url: 'https://pypi.org/project/git-notes-db/$CI_COMMIT_TAG/'
-        - name: 'GitLab Package'
+        - name: 'PyPI Package'
+          url: 'https://pypi.org/project/git-notes-db/$CI_COMMIT_TAG/'
+        - name: 'Package on GitLab PyPi Repository'
           url: '$GITLAB_PACKAGE_URL'
