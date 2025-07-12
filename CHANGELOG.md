@@ -1,3 +1,9 @@
+## 0.1.24 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: use jq to format json query for curl's body
+
 ## 0.1.23 (2025-07-12)
 
 ### 💚👷 CI & Build
