@@ -106,7 +106,7 @@ release:
     PROJECT_URL_RESULT_JQ: >-
       .data.project.packages.nodes[0]._links.webPath
     PROJECT_URL_ENV_JQ: >-
-      $PROJECT_URL_RESULT_JQ | @sh "GITLAB_PACKAGE_URL=\(env.CI_SERVER_URL)\(.)"
+      $PROJECT_URL_RESULT_JQ | "GITLAB_PACKAGE_URL=\(env.CI_SERVER_URL)\(.)"
     DEBUG: 1
   script:
     - apk add --no-cache jq curl
