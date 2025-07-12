@@ -1,3 +1,9 @@
+## 0.1.30 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: fix path to .env when querying package url
+
 ## 0.1.29 (2025-07-12)
 
 ### 💚👷 CI & Build
