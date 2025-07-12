@@ -1,3 +1,9 @@
+## 0.1.23 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: change method of piping variable into jq
+
 ## 0.1.22 (2025-07-12)
 
 ### 💚👷 CI & Build
