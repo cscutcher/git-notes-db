@@ -134,7 +134,7 @@ release:
       jq -e "$PROJECT_URL_RESULT_JQ" query_result.json
 
       echo "Writing env"
-      jq "$PROJECT_URL_ENV_JQ" query_result.json | tee release.env
+      jq -r "$PROJECT_URL_ENV_JQ" query_result.json | tee release.env
   artifacts:
     reports:
       dotenv: release.env
