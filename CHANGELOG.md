@@ -1,8 +1,13 @@
-## Unreleased
+## 0.1.15 (2025-07-12)
 
 ### revert
 
 - ci(gitlab-release): try curl rather than glab command
+
+### 💚👷 CI & Build
+
+- **commit_hooks**: don't sync before every commit
+- **gitlab-release**: cleanup api call and change to use specifically created token for auth >>> ⏰ 10m
 
 ### 🔧🔨📦️ Configuration, Scripts, Packages
 
