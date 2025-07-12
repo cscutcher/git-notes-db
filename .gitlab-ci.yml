@@ -89,32 +89,38 @@ release:
   stage: release
   environment: release
   image: registry.gitlab.com/gitlab-org/cli:latest
-  dependencies: 
+  dependencies:
     - publish-gitlab
     - publish-pypi
   rules:
     - if: $CI_COMMIT_TAG
+  variables:
+    PROJECT_URL_QUERY: >-
+      query getPackageId($version: String!) {
+        project(fullPath: "cscutcher-public/git-notes-db") {
+          packages(packageName: "git-notes-db", packageVersion: $version){
+            nodes { _links {webPath} }
+          }
+        }
+      }
+    PROJECT_URL_RESULT_JQ: >-
+      .data.project.packages.nodes[0]._links.webPath
+    GITLAB_TOKEN: "$GITLAB_RO_API_ACCESS"
   script:
-    - echo "Creating release for $CI_COMMIT_TAG"
     - apk add --no-cache jq
+    - echo "Creating release for $CI_COMMIT_TAG"
     - |
-      set -o xtrace
-      echo "Configuring glab authentication..."
-      export GITLAB_TOKEN="$CI_JOB_TOKEN"
-      export GITLAB_HOST="gitlab.com"
+      echo "Check authentication to api..."
       glab auth status
-      
-      echo "Waiting for package to be available..."
-      sleep 10
-      
+    - |
       echo "Querying GitLab API for package info..."
-      QUERY_RESULT=$(glab api graphql -f query='query getPackageId($version: String!) { project(fullPath: "cscutcher-public/git-notes-db") { name packages(packageName: "git-notes-db", packageVersion: $version){ nodes { _links {webPath} }  } }}' -f version="$CI_COMMIT_TAG")
+      QUERY_RESULT=$(glab api graphql -f query="$PROJECT_URL_QUERY" -f version="$CI_COMMIT_TAG")
       echo "GraphQL query result:"
       echo "$QUERY_RESULT"
       echo "Extracting package path..."
-      PACKAGE_PATH=$(echo "$QUERY_RESULT" | jq -r '.data.project.packages.nodes[0]._links.webPath')
+      PACKAGE_PATH=$(echo "$QUERY_RESULT" | jq -r "$PROJECT_URL_RESULT_JQ")
       echo "Package path: $PACKAGE_PATH"
-      echo "PACKAGE_URL=https://gitlab.com${PACKAGE_PATH}" >> release.env
+      echo "GITLAB_PACKAGE_URL=https://gitlab.com${PACKAGE_PATH}" >> release.env
   artifacts:
     reports:
       dotenv: release.env
@@ -128,4 +134,4 @@ release:
         - name: 'PyPI Package'
           url: 'https://pypi.org/project/git-notes-db/$CI_COMMIT_TAG/'
         - name: 'GitLab Package'
-          url: '$PACKAGE_URL'
+          url: '$GITLAB_PACKAGE_URL'

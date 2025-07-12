@@ -4,6 +4,10 @@
 
 - ci(gitlab-release): try curl rather than glab command
 
+### 🔧🔨📦️ Configuration, Scripts, Packages
+
+- **commitizen-commit**: try out gitmoji flavor of commitizen, tweak commit script, add pre-bump check >>> ⏰ 1h
+
 ## 0.1.14 (2025-07-11)
 
 ### ci
