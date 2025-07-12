@@ -110,6 +110,7 @@ release:
     - apk add --no-cache jq
     - echo "Creating release for $CI_COMMIT_TAG"
     - |
+      env
       echo "Check authentication to api..."
       glab auth status
     - |
