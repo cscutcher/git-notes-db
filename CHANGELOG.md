@@ -1,3 +1,9 @@
+## 0.1.25 (2025-07-12)
+
+### 💚👷 CI & Build
+
+- **gitlab-release**: fix jq argument order
+
 ## 0.1.24 (2025-07-12)
 
 ### 💚👷 CI & Build
