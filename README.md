@@ -1,6 +1,8 @@
 # git-notes-db
 
 [![License](https://img.shields.io/badge/license-Unlicense-blue.svg)](LICENSE)
+[![pipeline status](https://gitlab.com/cscutcher-public/git-notes-db/badges/main/pipeline.svg)](https://gitlab.com/cscutcher-public/git-notes-db/-/commits/main)
+[![Latest Release](https://gitlab.com/cscutcher-public/git-notes-db/-/badges/release.svg)](https://gitlab.com/cscutcher-public/git-notes-db/-/releases)
 
 This tool helps store structured information in git-notes.
 It aims to be usable manually, but also for creating other scripts.
