@@ -43,7 +43,6 @@ def commit(args: None | Sequence[str] = None) -> None:
     ctx = parser.parse_args(args)
     assert Path(".jj").exists(), "Expected jj repo"
 
-    subprocess.run(("uv", "run", "nox", "-t", "sync"), check=True)
     subprocess.run(("uv", "run", "nox", "-t", "checks"), check=True)
     jj_with_message("commit", *ctx.commit_args, edit=ctx.edit)
 
